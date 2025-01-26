@@ -1,48 +1,51 @@
-def mean_Of_Group(a, b, c, d, e):
-    return (a + b + c + d + e) / 5
+# Adding comments for easy understanding and clarity
+# Refactoring for the code to be more robust, user-friendly, and maintainable
 
-def median_Of_Group(a, b, c, d, e):
-    nums = [a, b, c, d, e]
-    nums.sort()
-    index = 2
-    return (nums[index])
+# UPDATED FUNCTION
+# Use *args for variable length arguments
+def mean_of_group(*nums):   # Consistency in naming: Python's PEP 8 suggests using snake_case
+    if not nums:
+        raise ValueError("No numbers provided to calculate mean.")  # Handle incorrect input
+    return sum(nums) / len(nums)
 
-def results():
+# UPDATED FUNCTION
+def median_of_group(*nums):
+    sorted_nums = sorted(nums)  # sort the sampled numbers
+    length = len(sorted_nums)   # count the length (currently, will always be 5)
+    return sorted_nums[length // 2]
+
+# UPDATED PROCESSING
+# MAIN LOOP
+def process_choice(choice, nums):
     if choice == 'mean':
-        print('Your result is:')
-        print(mean_Of_Group(a, b, c, d, e))
+        return mean_of_group(*nums)
     elif choice == 'median':
-        print('Your result is:')  
-        print(median_Of_Group(a, b, c, d, e))
+        return median_of_group(*nums)
     else:
-        return
+        raise ValueError("Invalid choice. Chose 'mean' or 'median'.")
 
-def results2():
-    if choice == 'mean':
-        print('Your result is:')
-        print(mean_Of_Group(a, b, c, d, e))
-    elif choice == 'median':
-        print('Your result is:')  
-        print(median_Of_Group(a, b, c, d, e))
-    else:
-        print('It seems like you are not even trying, goodbye!1')
-    
+# Initialize variable that represents the user's choice of operation
+choice = ''
 
-print('Please enter 5 numbers:')
+# Get five numbers from the user and handle invalid input
+def get_nums():
+    nums = []
+    while len(nums) < 5:
+        try:
+            num = int(input(f"Enter number {len(nums) + 1}:"))
+            nums.append(num)
+        except ValueError:
+            print("That's not a valid number. Please try again.")
+    return nums
 
-a = int(input())
-b = int(input())
-c = int(input())
-d = int(input())
-e = int(input())
+nums = get_nums()
 
-choice = 0
-
-print('Please choose either mean or median as your result:')
-choice = str(input())
-results()
-
-print('Really? How did you mess that up? Choose again:')
-choice = str(input())
-results2()
-
+# Try and catch block processes the users choice and handles errors 
+while True:
+    choice = input("Please choose 'mean' or 'median' for your results: ").lower()
+    try:
+        result = process_choice(choice, nums)
+        print(f"Your result is: {result}")
+        break
+    except ValueError as e:
+        print(e)
